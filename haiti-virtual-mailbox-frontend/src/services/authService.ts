@@ -19,7 +19,7 @@ export const register = async (
 };
 
 export const login = async (email: string, password: string): Promise<User> => {
-  const res = await api.post("/users/login", { email, password });
+  const res = await api.post("/auth/login", { email, password });
 
   return res.data as User; // ✅ explicitly cast
 };
