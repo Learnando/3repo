@@ -30,7 +30,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchPackages = async () => {
-      if (!user) return;
+      if (!user || !user._id) return;
+
       try {
         const data: UserPackage[] = await fetchUserPackages(user._id);
         const sorted = [...data].sort((a, b) => {
