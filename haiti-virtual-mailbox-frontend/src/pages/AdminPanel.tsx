@@ -225,7 +225,10 @@ const AdminPanel = () => {
                 <td>
                   {pkg.receiptUrl ? (
                     <a
-                      href={`http://localhost:5000${pkg.receiptUrl}`}
+                      href={`${import.meta.env.VITE_API_BASE_URL?.replace(
+                        "/api",
+                        ""
+                      )}${pkg.receiptUrl}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="receipt-link"
@@ -236,6 +239,7 @@ const AdminPanel = () => {
                     <span style={{ color: "gray" }}>No receipt</span>
                   )}
                 </td>
+
                 <td>{pkg.creditsUsed || 0}</td>
                 <td>{pkg.userId?.credits ?? 0}</td>
                 <td>{pkg.rating || "—"}</td>

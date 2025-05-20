@@ -261,7 +261,10 @@ const RequestTable = ({
             <td>
               {r.receiptUrl ? (
                 <a
-                  href={`http://localhost:5000${r.receiptUrl}`}
+                  href={`${import.meta.env.VITE_API_BASE_URL?.replace(
+                    "/api",
+                    ""
+                  )}${r.receiptUrl}`}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -274,7 +277,10 @@ const RequestTable = ({
             <td>
               {r.screenshotUrl ? (
                 <a
-                  href={`http://localhost:5000${r.screenshotUrl}`}
+                  href={`${import.meta.env.VITE_API_BASE_URL?.replace(
+                    "/api",
+                    ""
+                  )}${r.screenshotUrl}`}
                   target="_blank"
                   rel="noreferrer"
                 >

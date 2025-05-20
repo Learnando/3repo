@@ -19,7 +19,8 @@ const ReviewForm = ({ packageId, onSubmitted }: ReviewFormProps) => {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/packages/${packageId}/review`,
+        `${import.meta.env.VITE_API_BASE_URL}/packages/${packageId}/review`,
+
         {
           method: "PATCH",
           headers: {

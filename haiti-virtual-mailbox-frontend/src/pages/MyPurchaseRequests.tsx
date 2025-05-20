@@ -215,7 +215,10 @@ const MyPurchaseRequests = () => {
                 <p>
                   <strong>📷 Screenshot:</strong>{" "}
                   <a
-                    href={`http://localhost:5000${r.screenshotUrl}`}
+                    href={`${import.meta.env.VITE_API_BASE_URL?.replace(
+                      "/api",
+                      ""
+                    )}${r.screenshotUrl}`}
                     target="_blank"
                     rel="noreferrer"
                   >

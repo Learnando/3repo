@@ -45,7 +45,10 @@ const PackageCard = ({
       {screenshotUrl && (
         <div className="left-section">
           <img
-            src={`http://localhost:5000${screenshotUrl}`}
+            src={`${import.meta.env.VITE_API_BASE_URL?.replace(
+              "/api",
+              ""
+            )}${screenshotUrl}`}
             alt="Screenshot"
             className="screenshot-image"
             onClick={() => setShowPreview(true)}
@@ -131,7 +134,10 @@ const PackageCard = ({
               ❌
             </button>
             <img
-              src={`http://localhost:5000${screenshotUrl}`}
+              src={`${import.meta.env.VITE_API_BASE_URL?.replace(
+                "/api",
+                ""
+              )}${screenshotUrl}`}
               alt="Large Screenshot"
               className="modal-image"
             />

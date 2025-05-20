@@ -115,7 +115,10 @@ const AdminPurchaseRequests = () => {
                 <td>
                   {req.screenshotUrl ? (
                     <a
-                      href={`http://localhost:5000${req.screenshotUrl}`}
+                      href={`${import.meta.env.VITE_API_BASE_URL?.replace(
+                        "/api",
+                        ""
+                      )}${req.screenshotUrl}`}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -125,6 +128,7 @@ const AdminPurchaseRequests = () => {
                     "—"
                   )}
                 </td>
+
                 <td>
                   <select
                     value={req.status}
