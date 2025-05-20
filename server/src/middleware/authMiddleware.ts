@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import User from "../models/User"; // adjust if needed
+import User from "../models/User";
 
-// Define the expected payload structure
+// ✅ Define the expected JWT payload structure
 interface DecodedToken {
   id: string;
   isAdmin: boolean;
@@ -10,16 +10,22 @@ interface DecodedToken {
   exp?: number;
 }
 
-// Extend Express Request to include `user`
-export interface AuthenticatedRequest extends Request {
-  user?: DecodedToken;
+// ✅ Extend Express.Request type to support `req.user`
+declare module "express-serve-static-core" {
+  interface Request {
+    user?: {
+      _id: string;
+      isAdmin: boolean;
+    };
+  }
 }
 
-export const isAuth = (
-  req: AuthenticatedRequest,
+// ✅ Middleware: Protect (requires valid token)
+export const protect = async (
+  req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Promise<void> => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -31,34 +37,43 @@ export const isAuth = (
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken;
-    req.user = decoded;
+
+    const user = (await User.findById(decoded.id).select("-password")) as {
+      _id: string;
+      isAdmin: boolean;
+    };
+
+    if (!user) {
+      res.status(401).json({ message: "User not found" });
+      return;
+    }
+
+    req.user = {
+      _id: user._id.toString(),
+      isAdmin: user.isAdmin,
+    };
+
     next();
   } catch (err) {
     res.status(401).json({ message: "Invalid token" });
   }
 };
 
+// ✅ Middleware: Verify Admin
 export const verifyAdmin = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(401).json({ error: "No token provided" });
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
-    const user = await User.findById(decoded.id);
-    if (!user || !user.isAdmin)
-      return res.status(403).json({ error: "Forbidden" });
-
-    (req as any).user = user;
-    next();
-  } catch (err) {
-    return res.status(401).json({ error: "Invalid token" });
+): Promise<void> => {
+  if (!req.user || !req.user.isAdmin) {
+    res.status(403).json({ message: "Forbidden" });
+    return;
   }
+
+  next();
 };
 
+// ✅ Optional: Middleware to only verify token structure
 export const verifyToken = (
   req: Request,
   res: Response,
@@ -76,7 +91,7 @@ export const verifyToken = (
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "secret");
     (req as any).user = decoded;
-    next(); // only this returns
+    next();
   } catch (err) {
     res.status(401).json({ message: "Invalid token" });
   }

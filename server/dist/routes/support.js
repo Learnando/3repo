@@ -4,42 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const SupportMessage_1 = __importDefault(require("../models/SupportMessage"));
+const supportController_1 = require("../controllers/supportController");
+const authMiddleware_1 = require("../middleware/authMiddleware");
 const router = express_1.default.Router();
-// POST /api/support
-router.post("/", async (req, res) => {
-    const { name, email, phone, message } = req.body;
-    try {
-        const newMessage = await SupportMessage_1.default.create({
-            name,
-            email,
-            phone,
-            message,
-        });
-        res.status(201).json(newMessage);
-    }
-    catch (err) {
-        res.status(500).json({ error: "Failed to save message" });
-    }
-});
-// GET /api/support (admin only)
-router.get("/", async (req, res) => {
-    try {
-        const messages = await SupportMessage_1.default.find().sort({ createdAt: -1 });
-        res.json(messages);
-    }
-    catch (err) {
-        res.status(500).json({ error: "Failed to load messages" });
-    }
-});
-// DELETE /api/support/:id
-router.delete("/:id", async (req, res) => {
-    try {
-        await SupportMessage_1.default.findByIdAndDelete(req.params.id);
-        res.json({ success: true });
-    }
-    catch (err) {
-        res.status(500).json({ error: "Failed to delete message" });
-    }
-});
+router.post("/", supportController_1.submitSupportMessage); // Public
+router.get("/", authMiddleware_1.protect, authMiddleware_1.verifyAdmin, supportController_1.getSupportMessages); // Admin only
+router.delete("/:id", authMiddleware_1.protect, authMiddleware_1.verifyAdmin, supportController_1.deleteSupportMessage); // Admin only
 exports.default = router;

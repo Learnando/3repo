@@ -11,7 +11,8 @@ import {
   cancelPackage,
   getAllPackagesForAdmin,
 } from "../controllers/packageController";
-import { isAuth } from "../middleware/authMiddleware";
+import { protect } from "../middleware/authMiddleware";
+
 import Package from "../models/Package";
 
 const router = express.Router();
@@ -140,7 +141,7 @@ router.patch("/:id/cancel", cancelPackage);
 // ✅ Leave a review after delivery
 router.patch(
   "/:id/review",
-  isAuth,
+  protect,
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { rating, review } = req.body as { rating: number; review: string };

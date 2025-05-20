@@ -12,7 +12,7 @@ import {
 } from "../controllers/purchaseRequestController";
 import PurchaseRequest from "../models/PurchaseRequest";
 import { cancelPurchaseRequest } from "../controllers/purchaseRequestController";
-import { isAuth } from "../middleware/authMiddleware";
+import { protect } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
@@ -48,7 +48,7 @@ router.patch("/:id/fee", setPurchaseFinalFee);
 router.patch("/:id/paid", markPurchaseAsPaid);
 router.patch("/:id/receipt", upload.single("receipt"), uploadPurchaseReceipt);
 router.patch("/:id/cancel", cancelPurchaseRequest);
-router.patch("/:id/soft-delete", isAuth, userSoftDeletePurchaseRequest);
+router.patch("/:id/soft-delete", protect, userSoftDeletePurchaseRequest);
 
 // ❌ Delete a request
 router.patch("/:id", deletePurchaseRequest);

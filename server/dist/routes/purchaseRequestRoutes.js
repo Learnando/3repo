@@ -35,7 +35,7 @@ router.patch("/:id/fee", purchaseRequestController_1.setPurchaseFinalFee);
 router.patch("/:id/paid", purchaseRequestController_1.markPurchaseAsPaid);
 router.patch("/:id/receipt", upload_1.default.single("receipt"), purchaseRequestController_1.uploadPurchaseReceipt);
 router.patch("/:id/cancel", purchaseRequestController_2.cancelPurchaseRequest);
-router.patch("/:id/soft-delete", authMiddleware_1.isAuth, purchaseRequestController_1.userSoftDeletePurchaseRequest);
+router.patch("/:id/soft-delete", authMiddleware_1.protect, purchaseRequestController_1.userSoftDeletePurchaseRequest);
 // ❌ Delete a request
 router.patch("/:id", purchaseRequestController_1.deletePurchaseRequest);
 exports.default = router;

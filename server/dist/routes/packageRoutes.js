@@ -96,7 +96,7 @@ router.patch("/:id/fee", async (req, res, next) => {
 // ✅ Cancel package
 router.patch("/:id/cancel", packageController_1.cancelPackage);
 // ✅ Leave a review after delivery
-router.patch("/:id/review", authMiddleware_1.isAuth, async (req, res, next) => {
+router.patch("/:id/review", authMiddleware_1.protect, async (req, res, next) => {
     try {
         const { rating, review } = req.body;
         const packageId = req.params.id;
