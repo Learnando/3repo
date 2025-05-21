@@ -1,8 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import path from "path";
-
 import connectDB from "./config/db";
 import userRoutes from "./routes/userRoutes";
 import authRoutes from "./routes/authRoutes";
@@ -27,9 +25,7 @@ app.use(cors()); // Enable CORS for frontend requests
 app.use(express.json()); // Parse JSON request bodies
 
 // ✅ Serve uploaded screenshots statically
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-//app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 // Now you can access files via: http://localhost:5000/uploads/yourfile.jpg
 
 // ====================
