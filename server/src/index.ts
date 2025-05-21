@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import fs from "fs";
+
 import connectDB from "./config/db";
 import userRoutes from "./routes/userRoutes";
 import authRoutes from "./routes/authRoutes";
@@ -19,13 +22,23 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ====================
+// 📁 Ensure 'uploads' Directory Exists
+// ====================
+const uploadsDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// ====================
 // 🛡️ Middlewares
 // ====================
 app.use(cors()); // Enable CORS for frontend requests
 app.use(express.json()); // Parse JSON request bodies
 
-// ✅ Serve uploaded screenshots statically
-app.use("/uploads", express.static("uploads"));
+// ✅ Serve uploaded files statically
+app.use("/uploads", express.static(uploadsDir));
+
+//app.use("/uploads", express.static("uploads"));
 // Now you can access files via: http://localhost:5000/uploads/yourfile.jpg
 
 // ====================
@@ -38,7 +51,7 @@ app.use("/api/admin", adminStatsRoutes); // Admin dashboard stats
 app.use("/api/test", testRoutes);
 app.use("/api/purchase-requests", purchaseRequestRoutes);
 app.use("/api/settings", settingRoutes);
-app.use("/api/packages", packageRoutes);
+
 app.use("/api/support", supportRoutes);
 
 // ====================
