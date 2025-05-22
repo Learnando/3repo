@@ -24,7 +24,11 @@ const PORT = process.env.PORT || 5000;
 // ====================
 // 🛡️ Middlewares
 // ====================
-app.use((0, cors_1.default)()); // Enable CORS for frontend requests
+app.use((0, cors_1.default)({
+    origin: ["https://haiti-frontend.onrender.com"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    credentials: true,
+}));
 app.use(express_1.default.json()); // Parse JSON request bodies
 // ✅ Serve uploaded screenshots statically
 app.use("/uploads", express_1.default.static(path_1.default.join(__dirname, "..", "uploads")));
