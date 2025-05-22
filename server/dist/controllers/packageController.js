@@ -67,7 +67,7 @@ const createPackage = async (req, res, next) => {
             email,
             trackingNumber,
             creditsUsed: creditsApplied,
-            screenshotUrl: req.file ? `/uploads/${req.file.filename}` : undefined,
+            screenshotUrl: req.file ? req.file.path : undefined,
         });
         if (userId && whatsapp) {
             await User_1.default.findByIdAndUpdate(userId, { phone: whatsapp });

@@ -18,9 +18,7 @@ export const createPurchaseRequest = async (
       referenceNumber,
     } = req.body;
 
-    const screenshotUrl = req.file
-      ? `/uploads/${req.file.filename}`
-      : undefined;
+    const screenshotUrl = req.file ? req.file.path : undefined;
 
     const newRequest = await PurchaseRequest.create({
       userId,
@@ -133,7 +131,7 @@ export const uploadPurchaseReceipt = async (
 ): Promise<void> => {
   try {
     const { id } = req.params;
-    const receiptUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
+    const receiptUrl = req.file?.path;
 
     const updated = await PurchaseRequest.findByIdAndUpdate(
       id,

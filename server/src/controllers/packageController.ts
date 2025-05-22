@@ -91,7 +91,7 @@ export const createPackage = async (
       email,
       trackingNumber,
       creditsUsed: creditsApplied,
-      screenshotUrl: req.file ? `/uploads/${req.file.filename}` : undefined,
+      screenshotUrl: req.file ? req.file.path : undefined,
     });
 
     if (userId && whatsapp) {

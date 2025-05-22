@@ -10,9 +10,7 @@ const User_1 = __importDefault(require("../models/User")); // ✅ required to ac
 const createPurchaseRequest = async (req, res, next) => {
     try {
         const { userId, itemUrl, estimatedPrice, quantity, notes, referenceNumber, } = req.body;
-        const screenshotUrl = req.file
-            ? `/uploads/${req.file.filename}`
-            : undefined;
+        const screenshotUrl = req.file ? req.file.path : undefined;
         const newRequest = await PurchaseRequest_1.default.create({
             userId,
             itemUrl,
@@ -96,7 +94,7 @@ exports.markPurchaseAsPaid = markPurchaseAsPaid;
 const uploadPurchaseReceipt = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const receiptUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
+        const receiptUrl = req.file?.path;
         const updated = await PurchaseRequest_1.default.findByIdAndUpdate(id, { receiptUrl }, { new: true });
         if (!updated) {
             res.status(404).json({ message: "Request not found" });

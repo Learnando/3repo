@@ -12,6 +12,7 @@ import testRoutes from "./routes/testRoutes";
 import purchaseRequestRoutes from "./routes/purchaseRequestRoutes";
 import settingRoutes from "./routes/settingRoutes";
 import supportRoutes from "./routes/support";
+import path from "path";
 
 dotenv.config();
 
@@ -25,7 +26,8 @@ app.use(cors()); // Enable CORS for frontend requests
 app.use(express.json()); // Parse JSON request bodies
 
 // ✅ Serve uploaded screenshots statically
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
+//app.use("/uploads", express.static("uploads"));
 // Now you can access files via: http://localhost:5000/uploads/yourfile.jpg
 
 // ====================
