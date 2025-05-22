@@ -225,10 +225,7 @@ const AdminPanel = () => {
                 <td>
                   {pkg.receiptUrl ? (
                     <a
-                      href={`${import.meta.env.VITE_API_BASE_URL?.replace(
-                        "/api",
-                        ""
-                      )}${pkg.receiptUrl}`}
+                      href={pkg.receiptUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="receipt-link"
