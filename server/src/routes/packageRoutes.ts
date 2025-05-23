@@ -42,7 +42,7 @@ router.delete("/:id", softDeletePackageForAdmin);
 router.patch("/:id/status", updatePackageStatus);
 
 // ✅ Upload a payment receipt using Cloudinary
-router.post(
+router.patch(
   "/:id/upload-receipt",
   upload.single("receipt"),
   uploadPackageReceipt
