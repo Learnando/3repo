@@ -18,11 +18,6 @@ const router = express.Router();
 
 // 📥 Submit new request (user)
 router.post("/", upload.single("screenshot"), createPurchaseRequest);
-router.post(
-  "/:id/upload-receipt",
-  upload.single("receipt"),
-  uploadPurchaseReceipt
-);
 
 // 📄 Get all requests (admin)
 router.get("/", getAllPurchaseRequests);
@@ -52,9 +47,13 @@ router.patch("/:id/status", updatePurchaseStatus);
 router.patch("/:id/fee", setPurchaseFinalFee);
 router.patch("/:id/paid", markPurchaseAsPaid);
 router.patch("/:id/cancel", cancelPurchaseRequest);
-router.patch("/:id/soft-delete", protect, userSoftDeletePurchaseRequest);
 
-// ❌ Delete a request
+router.patch(
+  "/:id/upload-receipt",
+  upload.single("receipt"),
+  uploadPurchaseReceipt
+);
+router.patch("/:id/soft-delete", protect, userSoftDeletePurchaseRequest);
 router.patch("/:id", deletePurchaseRequest);
 
 export default router;

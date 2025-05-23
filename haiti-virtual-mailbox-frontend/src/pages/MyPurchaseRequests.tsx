@@ -57,7 +57,7 @@ const MyPurchaseRequests = () => {
       }
 
       const res = await api.patch<ReceiptUploadResponse>(
-        `/purchase-requests/${id}/receipt`,
+        `/purchase-requests/${id}/upload-receipt`,
         formData
       );
 

@@ -12,7 +12,6 @@ const authMiddleware_1 = require("../middleware/authMiddleware");
 const router = express_1.default.Router();
 // 📥 Submit new request (user)
 router.post("/", upload_1.default.single("screenshot"), purchaseRequestController_1.createPurchaseRequest);
-router.post("/:id/upload-receipt", upload_1.default.single("receipt"), purchaseRequestController_1.uploadPurchaseReceipt);
 // 📄 Get all requests (admin)
 router.get("/", purchaseRequestController_1.getAllPurchaseRequests);
 // 📥 Get requests by user ID
@@ -35,7 +34,7 @@ router.patch("/:id/status", purchaseRequestController_1.updatePurchaseStatus);
 router.patch("/:id/fee", purchaseRequestController_1.setPurchaseFinalFee);
 router.patch("/:id/paid", purchaseRequestController_1.markPurchaseAsPaid);
 router.patch("/:id/cancel", purchaseRequestController_2.cancelPurchaseRequest);
+router.patch("/:id/upload-receipt", upload_1.default.single("receipt"), purchaseRequestController_1.uploadPurchaseReceipt);
 router.patch("/:id/soft-delete", authMiddleware_1.protect, purchaseRequestController_1.userSoftDeletePurchaseRequest);
-// ❌ Delete a request
 router.patch("/:id", purchaseRequestController_1.deletePurchaseRequest);
 exports.default = router;
