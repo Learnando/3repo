@@ -223,7 +223,7 @@ const AdminPanel = () => {
                   )}
                 </td>
                 <td>
-                  {pkg.receiptUrl ? (
+                  {pkg.receiptUrl && pkg.receiptUrl.startsWith("http") ? (
                     <a
                       href={pkg.receiptUrl}
                       target="_blank"

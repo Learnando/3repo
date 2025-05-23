@@ -132,6 +132,7 @@ export const uploadPurchaseReceipt = async (
   try {
     const { id } = req.params;
     const receiptUrl = req.file?.path;
+    console.log("📸 Uploaded file path:", receiptUrl);
 
     const updated = await PurchaseRequest.findByIdAndUpdate(
       id,

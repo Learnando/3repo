@@ -95,6 +95,7 @@ const uploadPurchaseReceipt = async (req, res, next) => {
     try {
         const { id } = req.params;
         const receiptUrl = req.file?.path;
+        console.log("📸 Uploaded file path:", receiptUrl);
         const updated = await PurchaseRequest_1.default.findByIdAndUpdate(id, { receiptUrl }, { new: true });
         if (!updated) {
             res.status(404).json({ message: "Request not found" });
