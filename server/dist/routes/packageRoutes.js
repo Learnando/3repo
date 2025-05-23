@@ -26,7 +26,7 @@ router.delete("/:id", packageController_1.softDeletePackageForAdmin);
 // ✅ Update status of a package
 router.patch("/:id/status", packageController_1.updatePackageStatus);
 // ✅ Upload a payment receipt using Cloudinary
-router.post("/:id/upload-receipt", upload_1.default.single("receipt"), packageController_1.uploadPackageReceipt);
+router.patch("/:id/upload-receipt", upload_1.default.single("receipt"), packageController_1.uploadPackageReceipt);
 // ✅ Admin marks as paid
 router.patch("/:id/paid", async (req, res, next) => {
     try {

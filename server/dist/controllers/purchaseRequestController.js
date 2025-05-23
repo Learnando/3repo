@@ -10,7 +10,7 @@ const User_1 = __importDefault(require("../models/User")); // ✅ required to ac
 const createPurchaseRequest = async (req, res, next) => {
     try {
         const { userId, itemUrl, estimatedPrice, quantity, notes, referenceNumber, } = req.body;
-        const screenshotUrl = req.file ? req.file.path : undefined;
+        const screenshotUrl = req.file?.path;
         const newRequest = await PurchaseRequest_1.default.create({
             userId,
             itemUrl,

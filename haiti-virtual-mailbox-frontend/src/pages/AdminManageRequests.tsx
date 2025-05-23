@@ -258,38 +258,27 @@ const RequestTable = ({
                 "—"
               )}
             </td>
+
             <td>
               {r.receiptUrl ? (
-                <a
-                  href={`${import.meta.env.VITE_API_BASE_URL?.replace(
-                    "/api",
-                    ""
-                  )}${r.receiptUrl}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={r.receiptUrl} target="_blank" rel="noreferrer">
                   🧾 View
                 </a>
               ) : (
                 "—"
               )}
             </td>
+
             <td>
               {r.screenshotUrl ? (
-                <a
-                  href={`${import.meta.env.VITE_API_BASE_URL?.replace(
-                    "/api",
-                    ""
-                  )}${r.screenshotUrl}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={r.screenshotUrl} target="_blank" rel="noreferrer">
                   📷 View
                 </a>
               ) : (
                 "—"
               )}
             </td>
+
             <td>
               {!isReadOnly && (
                 <>

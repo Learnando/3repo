@@ -17,8 +17,7 @@ export const createPurchaseRequest = async (
       notes,
       referenceNumber,
     } = req.body;
-
-    const screenshotUrl = req.file ? req.file.path : undefined;
+    const screenshotUrl = req.file?.path;
 
     const newRequest = await PurchaseRequest.create({
       userId,
