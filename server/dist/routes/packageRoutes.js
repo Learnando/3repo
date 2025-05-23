@@ -15,29 +15,6 @@ router.post("/", upload_1.default.single("screenshot"), packageController_1.crea
 router.get("/track/:trackingNumber", packageController_1.trackPackage);
 // ✅ Get all packages for admin (paginated + includes credits)
 router.get("/all", packageController_1.getAllPackagesForAdmin);
-// ✅ Get all packages for admin (paginated - backup route)
-router.get("/all", async (req, res) => {
-    try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const skip = (page - 1) * limit;
-        const total = await Package_1.default.countDocuments();
-        const packages = await Package_1.default.find()
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limit);
-        res.status(200).json({
-            total,
-            page,
-            limit,
-            pages: Math.ceil(total / limit),
-            data: packages,
-        });
-    }
-    catch (err) {
-        res.status(500).json({ message: "Failed to fetch packages" });
-    }
-});
 // ✅ Get all packages submitted by a specific user
 router.get("/user/:userId", packageController_1.getUserPackages);
 // ✅ Get a single package by ID
@@ -48,20 +25,8 @@ router.delete("/user-delete/:id", packageController_1.softDeletePackageForUser);
 router.delete("/:id", packageController_1.softDeletePackageForAdmin);
 // ✅ Update status of a package
 router.patch("/:id/status", packageController_1.updatePackageStatus);
-// ✅ Upload a payment receipt
-router.patch("/:id/upload-receipt", upload_1.default.single("receipt"), async (req, res, next) => {
-    try {
-        const pkg = await Package_1.default.findByIdAndUpdate(req.params.id, { receiptUrl: req.file ? `/uploads/${req.file.filename}` : "" }, { new: true });
-        if (!pkg) {
-            res.status(404).json({ message: "Package not found" });
-            return;
-        }
-        res.status(200).json(pkg);
-    }
-    catch (err) {
-        next(err);
-    }
-});
+// ✅ Upload a payment receipt using Cloudinary
+router.post("/:id/upload-receipt", upload_1.default.single("receipt"), packageController_1.uploadPackageReceipt);
 // ✅ Admin marks as paid
 router.patch("/:id/paid", async (req, res, next) => {
     try {

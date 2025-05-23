@@ -10,9 +10,9 @@ import {
   softDeletePackageForAdmin,
   cancelPackage,
   getAllPackagesForAdmin,
+  uploadPackageReceipt,
 } from "../controllers/packageController";
 import { protect } from "../middleware/authMiddleware";
-
 import Package from "../models/Package";
 
 const router = express.Router();
@@ -25,31 +25,6 @@ router.get("/track/:trackingNumber", trackPackage);
 
 // ✅ Get all packages for admin (paginated + includes credits)
 router.get("/all", getAllPackagesForAdmin);
-
-// ✅ Get all packages for admin (paginated - backup route)
-router.get("/all", async (req, res) => {
-  try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const skip = (page - 1) * limit;
-
-    const total = await Package.countDocuments();
-    const packages = await Package.find()
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit);
-
-    res.status(200).json({
-      total,
-      page,
-      limit,
-      pages: Math.ceil(total / limit),
-      data: packages,
-    });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to fetch packages" });
-  }
-});
 
 // ✅ Get all packages submitted by a specific user
 router.get("/user/:userId", getUserPackages);
@@ -66,28 +41,11 @@ router.delete("/:id", softDeletePackageForAdmin);
 // ✅ Update status of a package
 router.patch("/:id/status", updatePackageStatus);
 
-// ✅ Upload a payment receipt
-router.patch(
+// ✅ Upload a payment receipt using Cloudinary
+router.post(
   "/:id/upload-receipt",
   upload.single("receipt"),
-  async (req, res, next) => {
-    try {
-      const pkg = await Package.findByIdAndUpdate(
-        req.params.id,
-        { receiptUrl: req.file ? `/uploads/${req.file.filename}` : "" },
-        { new: true }
-      );
-
-      if (!pkg) {
-        res.status(404).json({ message: "Package not found" });
-        return;
-      }
-
-      res.status(200).json(pkg);
-    } catch (err) {
-      next(err);
-    }
-  }
+  uploadPackageReceipt
 );
 
 // ✅ Admin marks as paid

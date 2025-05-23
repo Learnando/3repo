@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllPackagesForAdmin = exports.cancelPackage = exports.updatePackageStatus = exports.softDeletePackageForAdmin = exports.softDeletePackageForUser = exports.deletePackage = exports.getPackageById = exports.getUserPackages = exports.createPackage = exports.trackPackage = void 0;
+exports.uploadPackageReceipt = exports.getAllPackagesForAdmin = exports.cancelPackage = exports.updatePackageStatus = exports.softDeletePackageForAdmin = exports.softDeletePackageForUser = exports.deletePackage = exports.getPackageById = exports.getUserPackages = exports.createPackage = exports.trackPackage = void 0;
 const Package_1 = __importDefault(require("../models/Package"));
 const sendEmail_1 = __importDefault(require("../utils/sendEmail"));
 const User_1 = __importDefault(require("../models/User"));
@@ -281,3 +281,19 @@ const getAllPackagesForAdmin = async (req, res, next) => {
     }
 };
 exports.getAllPackagesForAdmin = getAllPackagesForAdmin;
+const uploadPackageReceipt = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const receiptUrl = req.file?.path;
+        const updated = await Package_1.default.findByIdAndUpdate(id, { receiptUrl }, { new: true });
+        if (!updated) {
+            res.status(404).json({ message: "Package not found" });
+            return;
+        }
+        res.status(200).json({ receiptUrl });
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.uploadPackageReceipt = uploadPackageReceipt;

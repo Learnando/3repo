@@ -359,3 +359,29 @@ export const getAllPackagesForAdmin = async (
     next(err);
   }
 };
+
+export const uploadPackageReceipt = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const receiptUrl = req.file?.path;
+
+    const updated = await Package.findByIdAndUpdate(
+      id,
+      { receiptUrl },
+      { new: true }
+    );
+
+    if (!updated) {
+      res.status(404).json({ message: "Package not found" });
+      return;
+    }
+
+    res.status(200).json({ receiptUrl });
+  } catch (err) {
+    next(err);
+  }
+};
