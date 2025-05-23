@@ -242,11 +242,32 @@ const getAllPackagesForAdmin = async (req, res, next) => {
         const total = await Package_1.default.countDocuments();
         const pages = Math.ceil(total / limit);
         const skip = (page - 1) * limit;
-        const packages = await Package_1.default.find()
+        const packagesRaw = await Package_1.default.find()
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit)
-            .populate("userId", "name email credits"); // ✅ Include credits
+            .populate("userId", "name email credits");
+        const packages = packagesRaw.map((pkg) => ({
+            _id: pkg._id,
+            customerName: pkg.customerName,
+            whatsapp: pkg.whatsapp,
+            email: pkg.email,
+            description: pkg.description,
+            price: pkg.price,
+            shipping: pkg.shipping,
+            delivery: pkg.delivery,
+            note: pkg.note,
+            trackingNumber: pkg.trackingNumber,
+            status: pkg.status,
+            createdAt: pkg.createdAt,
+            isPaid: pkg.isPaid,
+            receiptUrl: pkg.receiptUrl || null, // ✅ add this
+            finalFee: pkg.finalFee,
+            creditsUsed: pkg.creditsUsed,
+            rating: pkg.rating,
+            review: pkg.review,
+            userId: pkg.userId,
+        }));
         res.status(200).json({
             data: packages,
             total,
