@@ -47,7 +47,6 @@ app.use("/api/admin", adminStatsRoutes); // Admin dashboard stats
 app.use("/api/test", testRoutes);
 app.use("/api/purchase-requests", purchaseRequestRoutes);
 app.use("/api/settings", settingRoutes);
-app.use("/api/packages", packageRoutes);
 app.use("/api/support", supportRoutes);
 
 // ====================

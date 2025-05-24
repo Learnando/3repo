@@ -44,7 +44,6 @@ app.use("/api/admin", adminStats_1.default); // Admin dashboard stats
 app.use("/api/test", testRoutes_1.default);
 app.use("/api/purchase-requests", purchaseRequestRoutes_1.default);
 app.use("/api/settings", settingRoutes_1.default);
-app.use("/api/packages", packageRoutes_1.default);
 app.use("/api/support", support_1.default);
 // ====================
 // ❌ 404 Handler + Global Error Handler
