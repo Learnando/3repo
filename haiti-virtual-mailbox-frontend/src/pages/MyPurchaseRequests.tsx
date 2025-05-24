@@ -218,7 +218,7 @@ const MyPurchaseRequests = () => {
                     href={`${import.meta.env.VITE_API_BASE_URL?.replace(
                       "/api",
                       ""
-                    )}${r.screenshotUrl}`}
+                    )}/${r.screenshotUrl}`}
                     target="_blank"
                     rel="noreferrer"
                   >
