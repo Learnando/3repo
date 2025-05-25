@@ -215,10 +215,14 @@ const MyPurchaseRequests = () => {
                 <p>
                   <strong>📷 Screenshot:</strong>{" "}
                   <a
-                    href={`${import.meta.env.VITE_API_BASE_URL?.replace(
-                      "/api",
-                      ""
-                    )}${r.screenshotUrl}`}
+                    href={
+                      r.screenshotUrl?.startsWith("http")
+                        ? r.screenshotUrl
+                        : `${import.meta.env.VITE_API_BASE_URL?.replace(
+                            "/api",
+                            ""
+                          )}${r.screenshotUrl}`
+                    }
                     target="_blank"
                     rel="noreferrer"
                   >
