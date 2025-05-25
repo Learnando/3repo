@@ -223,7 +223,11 @@
   "home": {
     "title": "Welcome to Haiti Virtual Mailbox",
     "subtitle": "Get your own virtual address to receive packages safely and reliably.",
-    "getStarted": "Get Started"
+    "getStarted": "Get Started",
+    "paymentMethods": "Accepted Payment Methods",
+    "cashapp": "CashApp",
+    "zelle": "Zelle",
+    "moncash": "MonCash"
   },
   "submitPackage": "Submit a New Package",
   "buyForMe": "Buy For Me",

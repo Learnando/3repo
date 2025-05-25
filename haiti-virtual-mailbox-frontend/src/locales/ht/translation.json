@@ -365,7 +365,11 @@
   "home": {
     "title": "Byenveni nan Haiti Virtual Mailbox",
     "subtitle": "Jwenn pwòp adrès vityèl ou pou resevwa pakè yo san danje ak fyab.",
-    "getStarted": "Kòmanse"
+    "getStarted": "Kòmanse",
+    "paymentMethods": "Mòd Peman Nou Aksepte",
+    "cashapp": "CashApp",
+    "zelle": "Zelle",
+    "moncash": "MonCash"
   },
   "purchaseForm": {
     "title": "Nou Achte Pou Ou",
