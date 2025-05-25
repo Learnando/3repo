@@ -55,6 +55,82 @@
   background-color: #008ecc;
 }
 
+.home-payment-methods {
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.15); /* translucent background */
+  backdrop-filter: blur(10px); /* glassmorphism effect */
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  text-align: center;
+}
+
+.home-payment-methods h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.payment-grid {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.payment-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  padding: 1.2rem 1.5rem;
+  width: 200px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+}
+
+.payment-card:hover {
+  transform: translateY(-5px);
+}
+
+.payment-card img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-bottom: 0.8rem;
+}
+
+.payment-card p {
+  word-break: break-word;
+  white-space: normal;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.copy-btn {
+  margin-top: 8px;
+  background-color: #ffffff20;
+  border: 1px solid #ffffff40;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.copy-btn:hover {
+  background-color: #ffffff40;
+}
+
 /* Fade-in animation */
 @keyframes fadeIn {
   from {
