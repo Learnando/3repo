@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 5000;
 app.use(
   cors({
     origin: [
-      "https://haiti-frontend.onrender.com",
+      //"https://haiti-frontend.onrender.com",
       "https://testupdates-frontend.onrender.com",
     ],
 
