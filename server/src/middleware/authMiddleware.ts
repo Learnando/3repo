@@ -12,12 +12,18 @@ interface DecodedToken {
 
 // ✅ Extend Express.Request type to support `req.user`
 declare module "express-serve-static-core" {
+  // I replace the comment bellow with interface Request { user?:  import("../models/User").IUser; }
+
   interface Request {
-    user?: {
-      _id: string;
-      isAdmin: boolean;
-    };
+    user?: import("../models/User").IUser;
   }
+
+  //interface Request {
+  // user?: {
+  // _id: string;
+  // isAdmin: boolean;
+  // };
+  //}
 }
 
 // ✅ Middleware: Protect (requires valid token)
@@ -38,20 +44,27 @@ export const protect = async (
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken;
 
-    const user = (await User.findById(decoded.id).select("-password")) as {
-      _id: string;
-      isAdmin: boolean;
-    };
+    // i replace the following comment by the line below
+    const user = await User.findById(decoded.id).select("-password");
+
+    //const user = (await User.findById(decoded.id).select("-password")) as {
+    //_id: string;
+    //isAdmin: boolean;
+    //};
 
     if (!user) {
       res.status(401).json({ message: "User not found" });
       return;
     }
 
-    req.user = {
-      _id: user._id.toString(),
-      isAdmin: user.isAdmin,
-    };
+    // i replace the comment below by  const user = await User.findById(decoded.id).select("-password");
+
+    req.user = user;
+
+    //req.user = {
+    //_id: user._id.toString(),
+    // isAdmin: user.isAdmin,
+    // };
 
     next();
   } catch (err) {

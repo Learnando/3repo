@@ -16,15 +16,22 @@ const protect = async (req, res, next) => {
     const token = authHeader.split(" ")[1];
     try {
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
-        const user = (await User_1.default.findById(decoded.id).select("-password"));
+        // i replace the following comment by the line below
+        const user = await User_1.default.findById(decoded.id).select("-password");
+        //const user = (await User.findById(decoded.id).select("-password")) as {
+        //_id: string;
+        //isAdmin: boolean;
+        //};
         if (!user) {
             res.status(401).json({ message: "User not found" });
             return;
         }
-        req.user = {
-            _id: user._id.toString(),
-            isAdmin: user.isAdmin,
-        };
+        // i replace the comment below by  const user = await User.findById(decoded.id).select("-password");
+        req.user = user;
+        //req.user = {
+        //_id: user._id.toString(),
+        // isAdmin: user.isAdmin,
+        // };
         next();
     }
     catch (err) {
