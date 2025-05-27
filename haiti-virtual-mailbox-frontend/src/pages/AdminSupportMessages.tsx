@@ -21,6 +21,8 @@ const AdminSupportMessages = () => {
     const fetchMessages = async () => {
       try {
         const res = await api.get<SupportMessage[]>("/support");
+        // this line is temporarly console.log("✅ Support response:", res.data);
+        console.log("✅ Support response:", res.data);
         setMessages(res.data);
       } catch (err) {
         console.error("Failed to load support messages:", err);

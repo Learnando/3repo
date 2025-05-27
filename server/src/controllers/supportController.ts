@@ -28,6 +28,9 @@ export const submitSupportMessage = async (
 };
 
 export const getSupportMessages = async (req: Request, res: Response) => {
+  // this line is here temporarly console.log("📩 Admin is trying to fetch support messages:", req.user?.email);
+  console.log("📩 Admin is trying to fetch support messages:", req.user?.email);
+
   try {
     const messages = await SupportMessage.find().sort({ createdAt: -1 });
     res.status(200).json(messages);
