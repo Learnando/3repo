@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import "../styles/SupportModal.css";
+import api from "../services/api"; // ✅ Import configured Axios instance
 
 const SupportModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,12 +29,8 @@ const SupportModal = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/support", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (res.ok) {
+      const res = await api.post("/support", form); // ✅ Correct endpoint via backend
+      if (res.status === 201) {
         setSubmitted(true);
         setForm({ name: "", email: "", phone: "", message: "" });
       } else {
