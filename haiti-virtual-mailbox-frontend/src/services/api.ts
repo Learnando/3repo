@@ -1,9 +1,12 @@
 import axios from "axios";
 
+const baseURL =
+  import.meta.env.VITE_API_BASE_URL || "https://haiti-backend.onrender.com/api";
+
+console.log("📦 API Base URL:", baseURL); // ✅ Debug log
+
 const api = axios.create({
-  baseURL:
-    import.meta.env.VITE_API_BASE_URL ||
-    "https://haiti-backend.onrender.com/api", // ✅ Replace this if incorrect
+  baseURL,
 });
 
 // ✅ Interceptor to automatically attach Authorization header
