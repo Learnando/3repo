@@ -116,6 +116,28 @@ const PackageCard = ({
           </div>
         )}
 
+        {status === "Awaiting Payment" && (
+          <div className="payment-box">
+            <p>
+              💵 <strong>Your package has arrived in the U.S.</strong>
+            </p>
+            <p>Please send payment to:</p>
+            <ul style={{ paddingLeft: "1.2rem", marginBottom: "0.5rem" }}>
+              <li>
+                <strong>CashApp:</strong> <code>$haitipackage</code>
+              </li>
+              <li>
+                <strong>Zelle:</strong> <code>bensleyrameau@gmail.com</code>
+              </li>
+              <li>
+                <strong>MonCash:</strong> <code>+509 3245 6789</code>
+              </li>
+            </ul>
+            <p>After payment, upload your receipt below.</p>
+            <input type="file" />
+          </div>
+        )}
+
         {onCancel &&
           (status === "Pending" || status === "Awaiting Payment") && (
             <button className="cancel-btn" onClick={() => onCancel(_id)}>
