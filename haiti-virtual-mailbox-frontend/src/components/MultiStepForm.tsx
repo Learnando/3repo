@@ -11,8 +11,10 @@ import { useTranslation } from "react-i18next";
 
 const MultiStepForm = () => {
   const { user } = useAuth();
-  const [step, setStep] = useState(1);
   const { t } = useTranslation();
+  const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const [formData, setFormData] = useState({
     customerName: user?.name || "",
@@ -24,7 +26,7 @@ const MultiStepForm = () => {
     delivery: "pickup",
     note: "",
     screenshot: null as File | null,
-    creditsToUse: "", // ✅ Add credits field
+    creditsToUse: "",
   });
 
   const handleChange = (
@@ -115,7 +117,7 @@ const MultiStepForm = () => {
           value = value.replace(/,/g, "");
         }
         if (key === "creditsToUse" && value === "") {
-          value = "0"; // default to 0
+          value = "0";
         }
         data.append(key, value as any);
       }
@@ -125,6 +127,16 @@ const MultiStepForm = () => {
       data.append("userId", user._id);
     }
 
+    setIsSubmitting(true);
+    setProgress(0);
+
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        const next = prev + 5;
+        return next >= 90 ? 90 : next;
+      });
+    }, 150);
+
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/packages`, {
         method: "POST",
@@ -133,24 +145,34 @@ const MultiStepForm = () => {
 
       const result = await res.json();
       console.log("📦 Package submitted:", result);
+      setProgress(100);
       toast.success("✅ " + t("submit.success"));
 
-      setFormData({
-        customerName: user?.name || "",
-        whatsapp: "",
-        sender: "",
-        description: "",
-        price: "",
-        shipping: "air",
-        delivery: "pickup",
-        note: "",
-        screenshot: null,
-        creditsToUse: "",
-      });
-      setStep(1);
+      setTimeout(() => {
+        setFormData({
+          customerName: user?.name || "",
+          whatsapp: "",
+          sender: "",
+          description: "",
+          price: "",
+          shipping: "air",
+          delivery: "pickup",
+          note: "",
+          screenshot: null,
+          creditsToUse: "",
+        });
+        setStep(1);
+        setIsSubmitting(false);
+        setProgress(0);
+      }, 1000);
     } catch (err) {
+      clearInterval(progressInterval);
       console.error("❌ Failed to submit package:", err);
       toast.error(t("submit.failed"));
+      setIsSubmitting(false);
+      setProgress(0);
+    } finally {
+      clearInterval(progressInterval);
     }
   };
 
@@ -172,9 +194,14 @@ const MultiStepForm = () => {
         <Step3ShippingDelivery formData={formData} onChange={handleChange} />
       )}
 
-      {/* ✅ Only wrap final step in <form onSubmit={handleSubmit}> */}
       {step === 4 && (
         <form onSubmit={handleSubmit}>
+          {isSubmitting && (
+            <div className="progress-bar-container">
+              <div className="progress-bar" style={{ width: `${progress}%` }} />
+              <p style={{ textAlign: "center" }}>⏳ Uploading... {progress}%</p>
+            </div>
+          )}
           <Step4ConfirmSubmit
             formData={formData}
             onFileChange={handleFileChange}
@@ -183,12 +210,13 @@ const MultiStepForm = () => {
             <button type="button" onClick={handleBack}>
               ⬅️ {t("back")}
             </button>
-            <button type="submit">{t("submit.finalize")}</button>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "⏳ Submitting..." : t("submit.finalize")}
+            </button>
           </div>
         </form>
       )}
 
-      {/* ✅ Buttons for steps 1–3 go outside form */}
       {step < 4 && (
         <div className="navigation-buttons">
           {step > 1 && (
