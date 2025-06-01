@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../styles/PackageCard.css";
-import { useTranslation } from "react-i18next"; // ✅
+import { useTranslation } from "react-i18next";
 
 interface PackageProps {
   _id: string;
@@ -10,6 +10,7 @@ interface PackageProps {
   description?: string;
   createdAt?: string;
   screenshotUrl?: string;
+  receiptUrl?: string;
   onDelete?: (id: string) => void;
   onCancel?: (id: string) => void;
 }
@@ -22,13 +23,15 @@ const PackageCard = ({
   description,
   createdAt,
   screenshotUrl,
+  receiptUrl,
   onDelete,
   onCancel,
 }: PackageProps) => {
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
-  const { t } = useTranslation(); // ✅
+  const [receiptUploaded, setReceiptUploaded] = useState(receiptUrl || "");
+  const { t } = useTranslation();
 
   const handleCopy = () => {
     navigator.clipboard.writeText(trackingNumber);
@@ -38,6 +41,30 @@ const PackageCard = ({
 
   const toggleDescription = () => {
     setExpanded((prev) => !prev);
+  };
+
+  const handleReceiptUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("receipt", file);
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/packages/${_id}/upload-receipt`,
+        {
+          method: "PATCH",
+          body: formData,
+        }
+      );
+      const updated = await res.json();
+      setReceiptUploaded(updated.receiptUrl);
+    } catch (err) {
+      console.error("❌ Receipt upload failed", err);
+    }
   };
 
   return (
@@ -134,7 +161,17 @@ const PackageCard = ({
               </li>
             </ul>
             <p>After payment, upload your receipt below.</p>
-            <input type="file" />
+            {receiptUploaded ? (
+              <p style={{ color: "green", fontWeight: "bold" }}>
+                ✅ Receipt uploaded
+              </p>
+            ) : (
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleReceiptUpload}
+              />
+            )}
           </div>
         )}
 
