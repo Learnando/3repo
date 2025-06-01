@@ -13,7 +13,7 @@ const steps = [
 
 const ProgressBar = ({ currentStep }: ProgressBarProps) => {
   return (
-    <div className="progress-bar">
+    <div className="package-progress-bar">
       {steps.map((label, index) => {
         const stepNumber = index + 1;
         const isActive = stepNumber === currentStep;
