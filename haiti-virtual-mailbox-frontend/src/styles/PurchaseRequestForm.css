@@ -55,6 +55,20 @@
   background-color: #0056b3;
 }
 
+.progress-bar-container {
+  margin: 1rem 0;
+  height: 10px;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #007bff;
+  transition: width 0.2s ease-in-out;
+}
+
 /* Responsive adjustments */
 @media (max-width: 480px) {
   .purchase-form-wrapper {

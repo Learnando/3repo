@@ -18,6 +18,8 @@ const PurchaseRequestForm = () => {
     referenceNumber: "", // ✅ NEW
   });
   const [screenshot, setScreenshot] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,6 +39,9 @@ const PurchaseRequestForm = () => {
       return;
     }
 
+    setIsSubmitting(true);
+    setProgress(0);
+
     const data = new FormData();
     data.append("userId", user._id);
     data.append("itemUrl", form.itemUrl);
@@ -52,27 +57,53 @@ const PurchaseRequestForm = () => {
       data.append("screenshot", screenshot);
     }
 
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        const next = prev + 5;
+        return next >= 90 ? 90 : next;
+      });
+    }, 150);
+
     try {
       await api.post("/purchase-requests", data);
+      setProgress(100);
       toast.success(t("purchaseForm.success"));
-      setForm({
-        itemUrl: "",
-        estimatedPrice: "",
-        quantity: "1",
-        notes: "",
-        screenshot: null,
-        referenceNumber: "",
-      });
-      setScreenshot(null);
+
+      setTimeout(() => {
+        setForm({
+          itemUrl: "",
+          estimatedPrice: "",
+          quantity: "1",
+          notes: "",
+          screenshot: null,
+          referenceNumber: "",
+        });
+        setScreenshot(null);
+        setIsSubmitting(false);
+        setProgress(0);
+      }, 1000);
     } catch (err) {
+      clearInterval(interval);
       console.error("Error submitting purchase request:", err);
       toast.error(t("purchaseForm.error"));
+      setIsSubmitting(false);
+      setProgress(0);
+    } finally {
+      clearInterval(interval);
     }
   };
 
   return (
     <div className="purchase-form-wrapper">
       <h2>🛒 {t("purchaseForm.title")}</h2>
+
+      {isSubmitting && (
+        <div className="progress-bar-container">
+          <div className="progress-bar" style={{ width: `${progress}%` }} />
+          <p style={{ textAlign: "center" }}>⏳ Uploading... {progress}%</p>
+        </div>
+      )}
+
       <form className="purchase-form" onSubmit={handleSubmit}>
         <label>
           🔢 Reference Number
