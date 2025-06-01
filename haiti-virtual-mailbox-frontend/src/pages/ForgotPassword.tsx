@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import "../styles/Auth.css"; // You can reuse your auth styles
+import api from "../services/api";
 
 const ForgotPassword = () => {
   const { t } = useTranslation();
@@ -13,23 +14,10 @@ const ForgotPassword = () => {
     setError("");
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/users/forgot-password`,
-
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
-
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.message || "Something went wrong");
-
+      await api.post("/users/forgot-password", { email });
       setSuccess(true);
     } catch (err: any) {
-      setError(err.message || "Failed to send reset email");
+      setError(err.response?.data?.message || "Failed to send reset email");
     }
   };
 
