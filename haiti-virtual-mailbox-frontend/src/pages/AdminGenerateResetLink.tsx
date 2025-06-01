@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify"; // ✅ Import toast
 import "../styles/AdminPanel.css";
+import api from "../services/api";
 
 const AdminGenerateResetLink = () => {
   const [email, setEmail] = useState("");
@@ -13,20 +14,11 @@ const AdminGenerateResetLink = () => {
     setResetUrl("");
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/admin/generate-reset-link`,
-
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
-
-      const data = await res.json();
-
-      if (!res.ok)
-        throw new Error(data.message || "Failed to generate reset link");
+      const { data } = (await api.post("/admin/generate-reset-link", {
+        email,
+      })) as {
+        data: { resetUrl: string };
+      };
 
       const token = data.resetUrl.split("/reset/")[1];
       const fullUrl = `https://bwatlakay.com/reset/${token}`;
@@ -34,8 +26,10 @@ const AdminGenerateResetLink = () => {
 
       toast.success("✅ Reset link generated!");
     } catch (err: any) {
-      setError(err.message);
-      toast.error("❌ " + err.message);
+      setError(err.response?.data?.message || "Failed to generate reset link");
+      toast.error(
+        "❌ " + (err.response?.data?.message || "Something went wrong")
+      );
     }
   };
 
