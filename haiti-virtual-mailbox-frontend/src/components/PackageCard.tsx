@@ -11,6 +11,7 @@ interface PackageProps {
   createdAt?: string;
   screenshotUrl?: string;
   receiptUrl?: string;
+  finalFee?: number;
   onDelete?: (id: string) => void;
   onCancel?: (id: string) => void;
 }
@@ -24,6 +25,7 @@ const PackageCard = ({
   createdAt,
   screenshotUrl,
   receiptUrl,
+  finalFee,
   onDelete,
   onCancel,
 }: PackageProps) => {
@@ -148,6 +150,12 @@ const PackageCard = ({
             <p>
               💵 <strong>Your package has arrived in the U.S.</strong>
             </p>
+
+            {/* ✅ Add this line to show the fee */}
+            <p>
+              Shipping Fee: <strong>${finalFee?.toFixed(2)}</strong>
+            </p>
+
             <p>Please send payment to:</p>
             <ul style={{ paddingLeft: "1.2rem", marginBottom: "0.5rem" }}>
               <li>
@@ -161,6 +169,7 @@ const PackageCard = ({
               </li>
             </ul>
             <p>After payment, upload your receipt below.</p>
+
             {receiptUploaded ? (
               <p style={{ color: "green", fontWeight: "bold" }}>
                 ✅ Receipt uploaded
