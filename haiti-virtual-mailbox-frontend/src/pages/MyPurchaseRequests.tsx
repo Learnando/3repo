@@ -182,12 +182,21 @@ const MyPurchaseRequests = () => {
                   <p>
                     {t("shippingFee")} <strong>${r.finalFee.toFixed(2)}</strong>
                   </p>
-                  <p>
-                    {t("paymentInstructions")}{" "}
-                    <strong>{t("cashAppTag")}</strong>
-                    <br />
-                    {t("uploadReceipt")}
-                  </p>
+
+                  <p>{t("paymentInstructions")}:</p>
+                  <ul style={{ paddingLeft: "1.2rem", marginBottom: "0.5rem" }}>
+                    <li>
+                      <strong>CashApp:</strong> <code>$haitipackage</code>
+                    </li>
+                    <li>
+                      <strong>Zelle:</strong>{" "}
+                      <code>bensleyrameau@gmail.com</code>
+                    </li>
+                    <li>
+                      <strong>MonCash:</strong> <code>+509 3245 6789</code>
+                    </li>
+                  </ul>
+                  <p>{t("uploadReceipt")}</p>
 
                   {r.receiptUrl ? (
                     <>
