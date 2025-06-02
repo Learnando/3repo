@@ -20,6 +20,8 @@ interface UserPackage {
   screenshotUrl?: string;
   rating?: number; // ✅ NEW
   review?: string; // ✅ NEW
+  finalFee?: number;
+  receiptUrl?: string;
 }
 
 const Dashboard = () => {
@@ -233,6 +235,8 @@ const Dashboard = () => {
               description={pkg.description || t("noDescription")}
               createdAt={pkg.createdAt}
               screenshotUrl={pkg.screenshotUrl || undefined}
+              receiptUrl={pkg.receiptUrl}
+              finalFee={pkg.finalFee}
               onDelete={handleDelete}
               onCancel={handleCancel}
             />
