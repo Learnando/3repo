@@ -86,15 +86,17 @@ const PackageCard = ({
         <div className="card-header">
           <h3>
             📦 {t("card.tracking")}: {trackingNumber}
+          </h3>
+          <div className="action-buttons">
             <button onClick={handleCopy} className="copy-btn">
               {copied ? t("card.copied") : t("card.copy")}
             </button>
-          </h3>
-          {onDelete && (
-            <button className="delete-btn" onClick={() => onDelete(_id)}>
-              🗑️
-            </button>
-          )}
+            {onDelete && (
+              <button className="delete-btn" onClick={() => onDelete(_id)}>
+                🗑️
+              </button>
+            )}
+          </div>
         </div>
 
         <p>

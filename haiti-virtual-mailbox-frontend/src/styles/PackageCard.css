@@ -169,6 +169,26 @@
   font-size: 0.9rem;
 }
 
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100px; /* 🔧 Set same width */
+}
+
+.copy-btn,
+.delete-btn {
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
 @media (max-width: 600px) {
   .package-card.horizontal {
     flex-direction: column;
