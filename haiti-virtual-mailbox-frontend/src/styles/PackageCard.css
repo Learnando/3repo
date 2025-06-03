@@ -140,7 +140,33 @@
   padding: 1rem;
   border-radius: 6px;
   margin: 1rem 0;
+  overflow-wrap: break-word; /* ✅ Allow long words/URLs to wrap */
+  word-wrap: break-word;
+  word-break: break-word;
   font-size: 0.95rem;
+}
+
+/* Responsive tweaks for text and layout inside .payment-box */
+.payment-box ul {
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+  list-style-type: disc;
+}
+
+.payment-box li {
+  margin-bottom: 0.3rem;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.payment-box code {
+  font-family: monospace;
+  word-break: break-word;
+}
+
+.payment-box input[type="file"] {
+  max-width: 100%;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 600px) {
@@ -149,6 +175,10 @@
     align-items: center;
   }
 
+  .payment-box {
+    padding: 0.85rem;
+    font-size: 0.9rem;
+  }
   .package-card .left-section {
     flex: none;
     margin-bottom: 12px;
