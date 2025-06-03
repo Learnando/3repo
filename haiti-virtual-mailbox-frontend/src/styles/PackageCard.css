@@ -172,7 +172,7 @@
 .action-buttons {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 15px;
   width: 100px; /* 🔧 Set same width */
 }
 
