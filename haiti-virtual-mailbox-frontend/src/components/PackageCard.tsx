@@ -93,7 +93,7 @@ const PackageCard = ({
             </button>
             {onDelete && (
               <button className="delete-btn" onClick={() => onDelete(_id)}>
-                🗑️
+                Delete 🗑️
               </button>
             )}
           </div>
